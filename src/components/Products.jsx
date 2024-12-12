@@ -1,11 +1,16 @@
 import { Container, Card, Button, Stack, Image } from "react-bootstrap";
 import { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
 const allProductsUrl = "https://fakestoreapi.com/products";
 const categoryUrl = "https://fakestoreapi.com/products/category";
 
-function Products({ category, onAddToCart }) {
+function Products({ onAddToCart, onCheckAndRemove }) {
+  const { category } = useParams();
   const [products, setProducts] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [productId, setProductId] = useState(null);
   const timeoutId = useRef();
 
   async function loadProducts() {
@@ -17,6 +22,25 @@ function Products({ category, onAddToCart }) {
     const serverProducts = await response.json();
 
     setProducts(serverProducts);
+  }
+
+  function handleClose() {
+    setShowConfirmation(false);
+  }
+
+  function handleConfirm() {
+    const productsWithoutDeletedOne = products.filter(
+      (product) => product.id !== productId
+    );
+
+    setProducts(productsWithoutDeletedOne);
+
+    if (onCheckAndRemove) {
+      onCheckAndRemove(productId);
+    }
+
+    setShowConfirmation(false);
+    setProductId(null);
   }
 
   useEffect(() => {
@@ -39,8 +63,15 @@ function Products({ category, onAddToCart }) {
     }
   }
 
+  function handleDeleteItem(e, productId) {
+    e.preventDefault();
+
+    setShowConfirmation(true);
+    setProductId(productId);
+  }
+
   return (
-    <Container className="">
+    <Container className="py-5">
       <Stack
         className="flex-wrap justify-content-center align-items-center"
         direction="horizontal"
@@ -61,10 +92,21 @@ function Products({ category, onAddToCart }) {
               >
                 Add to cart
               </Button>
+              <Button variant="danger" onClick={(e) => handleDeleteItem(e, id)}>
+                Delete
+              </Button>
             </Card.Body>
           </Card>
         ))}
       </Stack>
+      <DeleteConfirmationModal
+        show={showConfirmation}
+        title="Remove Product Confirmation"
+        yesButton="Yes"
+        noButton="No"
+        onClose={handleClose}
+        onConfirm={handleConfirm}
+      />
     </Container>
   );
 }

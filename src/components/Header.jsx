@@ -1,5 +1,6 @@
 import { Navbar, Nav, Container, Stack, Badge } from "react-bootstrap";
 import { MdOutlineShoppingCart } from "react-icons/md";
+import { useParams, useNavigate } from "react-router-dom";
 
 const links = [
   {
@@ -20,19 +21,17 @@ const links = [
   },
 ];
 
-function Header({
-  category,
-  cartProducts,
-  onCategoryChange,
-  onShowShoppingCart,
-}) {
-  const handleClick = (event, value) => {
-    event.preventDefault();
+function Header({ cartProducts, onShowShoppingCart }) {
+  const { category } = useParams();
+  const navigate = useNavigate();
 
-    if (onCategoryChange) {
-      onCategoryChange(value);
-    }
-  };
+  console.log("category ", category);
+
+  function handleGoHome(e) {
+    e.preventDefault();
+
+    navigate("/");
+  }
 
   function handleShowShoppingCart(e) {
     e.preventDefault();
@@ -43,18 +42,24 @@ function Header({
   }
 
   return (
-    <Navbar expand="sm" bg="dark" data-bs-theme="dark">
+    <Navbar
+      className=""
+      sticky="top"
+      expand="sm"
+      bg="dark"
+      data-bs-theme="dark"
+    >
       <Container>
-        <Navbar.Brand onClick={(e) => handleClick(e, null)}>
+        <Navbar.Brand className="clickable" onClick={handleGoHome}>
           ItSchool Store
         </Navbar.Brand>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             {links.map(({ label, value }) => (
               <Nav.Link
+                href={`/${value}`}
                 active={category === value}
                 key={value}
-                onClick={(e) => handleClick(e, value)}
               >
                 {label}
               </Nav.Link>
