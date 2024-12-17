@@ -1,6 +1,12 @@
-import { Navbar, Nav, Container, Stack, Badge } from "react-bootstrap";
-import { MdOutlineShoppingCart } from "react-icons/md";
+import { Navbar, Nav, Container } from "react-bootstrap";
+import { MdLogout } from "react-icons/md";
 import { useParams, useNavigate } from "react-router-dom";
+import CartBadge from "./CartBadge";
+import ModeActions from "./ModeActions";
+
+import { useContext } from "react";
+
+import { ModeContext } from "../contexts/ModeContext";
 
 const links = [
   {
@@ -21,11 +27,10 @@ const links = [
   },
 ];
 
-function Header({ cartProducts, onShowShoppingCart }) {
+function Header() {
   const { category } = useParams();
   const navigate = useNavigate();
-
-  console.log("category ", category);
+  const { mode } = useContext(ModeContext);
 
   function handleGoHome(e) {
     e.preventDefault();
@@ -33,12 +38,11 @@ function Header({ cartProducts, onShowShoppingCart }) {
     navigate("/");
   }
 
-  function handleShowShoppingCart(e) {
+  function handleLogout(e) {
     e.preventDefault();
 
-    if (onShowShoppingCart) {
-      onShowShoppingCart();
-    }
+    navigate("/login");
+    localStorage.removeItem("token");
   }
 
   return (
@@ -46,8 +50,8 @@ function Header({ cartProducts, onShowShoppingCart }) {
       className=""
       sticky="top"
       expand="sm"
-      bg="dark"
-      data-bs-theme="dark"
+      bg={mode}
+      data-bs-theme={mode}
     >
       <Container>
         <Navbar.Brand className="clickable" onClick={handleGoHome}>
@@ -66,15 +70,15 @@ function Header({ cartProducts, onShowShoppingCart }) {
             ))}
           </Nav>
         </Navbar.Collapse>
-        <Stack
-          className="ms-auto text-white flex-row align-items-center position-relative flex-grow-0"
-          onClick={handleShowShoppingCart}
-        >
-          <Badge className="position-absolute top-0 start-100 translate-middle ">
-            {cartProducts}
-          </Badge>
-          <MdOutlineShoppingCart size={24} />
-        </Stack>
+        <ModeActions />
+        <CartBadge />
+        <MdLogout
+          className={`ms-3 ${
+            mode === "light" ? "text-dark" : "text-light"
+          } clickable`}
+          size={24}
+          onClick={handleLogout}
+        />
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
       </Container>
     </Navbar>

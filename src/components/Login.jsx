@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Form, Row, Col, Button, Container } from "react-bootstrap";
+import {
+  Form,
+  Row,
+  Col,
+  Button,
+  Container,
+  Spinner,
+  Alert,
+} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const loginUrl = "https://fakestoreapi.com/auth/login";
@@ -8,37 +16,54 @@ function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (!username || !password) {
+    if (!username) {
+      setError("Username is required!");
       return;
     }
 
-    const response = await fetch(loginUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    });
+    if (!password) {
+      setError("Password is required!");
+      return;
+    }
 
-    const data = await response.json();
+    setLoading(true);
 
-    console.log("data ", data);
+    try {
+      const response = await fetch(loginUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-    if (data) {
-      localStorage.setItem("token", data.token);
-      navigate("/");
+      const data = await response.json();
+
+      setLoading(false);
+
+      if (data) {
+        localStorage.setItem("token", data.token);
+        navigate("/");
+      }
+    } catch (error) {
+      setLoading(false);
+      setError("Username or password incorrect!");
     }
   }
 
   function handleUsernameChange(e) {
+    setError("");
     setUsername(e.target.value);
   }
 
   function handlePasswordChange(e) {
+    setError("");
     setPassword(e.target.value);
   }
 
@@ -54,6 +79,7 @@ function Login() {
               id="username"
               placeholder="Username"
               value={username}
+              disabled={loading}
               onChange={handleUsernameChange}
             />
           </Col>
@@ -66,14 +92,22 @@ function Login() {
               id="password"
               placeholder="Password"
               value={password}
+              disabled={loading}
               onChange={handlePasswordChange}
             />
           </Col>
         </Row>
+        {error && (
+          <Row className="mt-3">
+            <Col>
+              <Alert variant="danger">{error}</Alert>
+            </Col>
+          </Row>
+        )}
         <Row className="align-items-center">
           <Col xs="12">
-            <Button type="submit" className="mt-3 w-100">
-              Submit
+            <Button type="submit" className="mt-3 w-100" disabled={loading}>
+              {loading ? <Spinner /> : "Login"}
             </Button>
           </Col>
         </Row>

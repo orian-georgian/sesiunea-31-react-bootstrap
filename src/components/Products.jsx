@@ -1,22 +1,34 @@
-import { Container, Card, Button, Stack, Image } from "react-bootstrap";
-import { useState, useEffect, useRef } from "react";
+import {
+  Container,
+  Card,
+  Button,
+  Row,
+  Col,
+  Image,
+  Stack,
+} from "react-bootstrap";
+import { useState, useEffect, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import { CartContext } from "../contexts/CartContext";
+import { ModeContext } from "../contexts/ModeContext";
 
 const allProductsUrl = "https://fakestoreapi.com/products";
 const categoryUrl = "https://fakestoreapi.com/products/category";
 
-function Products({ onAddToCart, onCheckAndRemove }) {
+function Products() {
   const { category } = useParams();
   const [products, setProducts] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [productId, setProductId] = useState(null);
+  const { addToCart, checkCartAndRemove } = useContext(CartContext);
+  const { mode } = useContext(ModeContext);
   const timeoutId = useRef();
 
   async function loadProducts() {
-    timeoutId.current = setTimeout(() => {
+    /*     timeoutId.current = setTimeout(() => {
       console.log("Message after 3 sec!");
-    }, 3000);
+    }, 3000); */
     const url = !category ? allProductsUrl : `${categoryUrl}/${category}`;
     const response = await fetch(url);
     const serverProducts = await response.json();
@@ -35,9 +47,7 @@ function Products({ onAddToCart, onCheckAndRemove }) {
 
     setProducts(productsWithoutDeletedOne);
 
-    if (onCheckAndRemove) {
-      onCheckAndRemove(productId);
-    }
+    checkCartAndRemove(productId);
 
     setShowConfirmation(false);
     setProductId(null);
@@ -58,9 +68,7 @@ function Products({ onAddToCart, onCheckAndRemove }) {
   function handleAddToCart(e, product) {
     e.preventDefault();
 
-    if (onAddToCart) {
-      onAddToCart(product);
-    }
+    addToCart(product);
   }
 
   function handleDeleteItem(e, productId) {
@@ -72,33 +80,41 @@ function Products({ onAddToCart, onCheckAndRemove }) {
 
   return (
     <Container className="py-5">
-      <Stack
-        className="flex-wrap justify-content-center align-items-center"
-        direction="horizontal"
-        gap={3}
-      >
+      <Row className="g-4">
         {products.map(({ id, title, image, price }) => (
-          <Card className="w-25" key={id}>
-            <Stack className="justify-content-center align-items-center">
-              <Image className="w-50" src={image} />
-            </Stack>
+          <Col xs={12} sm={6} md={4} lg={3} key={id}>
+            <Card data-bs-theme={mode} className="h-100 d-flex flex-column">
+              <Stack className="justify-content-center align-items-center">
+                <Image className="w-50" src={image} />
+              </Stack>
 
-            <Card.Body>
-              <Card.Title>{title}</Card.Title>
-              <Card.Text>{price}</Card.Text>
-              <Button
-                variant="primary"
-                onClick={(e) => handleAddToCart(e, { id, title, image, price })}
-              >
-                Add to cart
-              </Button>
-              <Button variant="danger" onClick={(e) => handleDeleteItem(e, id)}>
-                Delete
-              </Button>
-            </Card.Body>
-          </Card>
+              <Card.Body className="d-flex flex-column">
+                <Card.Title>{title}</Card.Title>
+                <Card.Text>{price}</Card.Text>
+                <Stack
+                  className="mt-auto justify-content-between"
+                  direction="horizontal"
+                >
+                  <Button
+                    variant="primary"
+                    onClick={(e) =>
+                      handleAddToCart(e, { id, title, image, price })
+                    }
+                  >
+                    Add to cart
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={(e) => handleDeleteItem(e, id)}
+                  >
+                    Delete
+                  </Button>
+                </Stack>
+              </Card.Body>
+            </Card>
+          </Col>
         ))}
-      </Stack>
+      </Row>
       <DeleteConfirmationModal
         show={showConfirmation}
         title="Remove Product Confirmation"

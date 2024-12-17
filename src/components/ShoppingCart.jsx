@@ -1,6 +1,11 @@
 import { Offcanvas, Stack, Image, Badge } from "react-bootstrap";
 
+import { ModeContext } from "../contexts/ModeContext";
+import { useContext } from "react";
+
 function ShoppingCart({ show, products, onClose }) {
+  const { mode } = useContext(ModeContext);
+
   function handleClose() {
     if (onClose) {
       onClose();
@@ -8,7 +13,7 @@ function ShoppingCart({ show, products, onClose }) {
   }
 
   return (
-    <Offcanvas show={show} onHide={handleClose}>
+    <Offcanvas data-bs-theme={mode} show={show} onHide={handleClose}>
       <Offcanvas.Header closeButton>
         <Offcanvas.Title>Offcanvas</Offcanvas.Title>
       </Offcanvas.Header>
