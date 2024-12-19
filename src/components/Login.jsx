@@ -68,12 +68,17 @@ function Login() {
   }
 
   return (
-    <Container className="position-absolute p-3 bg-light w-25 top-50 start-50 translate-middle">
-      <Form noValidate onSubmit={handleSubmit}>
+    <Container fluid className="login w-100 h-100">
+      <Form
+        className="position-absolute p-4 bg-light w-25 top-50 start-50 translate-middle rounded shadow-lg"
+        noValidate
+        onSubmit={handleSubmit}
+      >
         <Row className="align-items-center">
           <Col xs="12">
             <Form.Label htmlFor="username">Username</Form.Label>
             <Form.Control
+              size="lg"
               className="mb-2"
               type="text"
               id="username"
@@ -88,6 +93,7 @@ function Login() {
           <Col xs="12">
             <Form.Label htmlFor="password">Password</Form.Label>
             <Form.Control
+              size="lg"
               type="password"
               id="password"
               placeholder="Password"
@@ -104,9 +110,14 @@ function Login() {
             </Col>
           </Row>
         )}
-        <Row className="align-items-center">
+        <Row className="align-items-center mt-3">
           <Col xs="12">
-            <Button type="submit" className="mt-3 w-100" disabled={loading}>
+            <Button
+              type="submit"
+              size="lg"
+              className="mt-3 w-100"
+              disabled={loading}
+            >
               {loading ? <Spinner /> : "Login"}
             </Button>
           </Col>

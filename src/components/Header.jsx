@@ -47,13 +47,13 @@ function Header() {
 
   return (
     <Navbar
-      className=""
+      className="border-bottom"
       sticky="top"
       expand="sm"
       bg={mode}
       data-bs-theme={mode}
     >
-      <Container>
+      <Container className="py-2">
         <Navbar.Brand className="clickable" onClick={handleGoHome}>
           ItSchool Store
         </Navbar.Brand>
@@ -68,6 +68,7 @@ function Header() {
                 {label}
               </Nav.Link>
             ))}
+            <Nav.Link href="/admin">Admin</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <ModeActions />

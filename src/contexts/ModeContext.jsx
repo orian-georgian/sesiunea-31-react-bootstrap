@@ -3,7 +3,8 @@ import { createContext, useState } from "react";
 export const ModeContext = createContext({});
 
 export const ModeProvider = ({ children }) => {
-  const [mode, setMode] = useState("light");
+  const localStorageMode = localStorage.getItem("mode");
+  const [mode, setMode] = useState(localStorageMode ?? "light");
 
   return (
     <ModeContext.Provider value={{ mode, setMode }}>

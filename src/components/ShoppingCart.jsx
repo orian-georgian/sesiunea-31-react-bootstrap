@@ -15,7 +15,7 @@ function ShoppingCart({ show, products, onClose }) {
   return (
     <Offcanvas data-bs-theme={mode} show={show} onHide={handleClose}>
       <Offcanvas.Header closeButton>
-        <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+        <Offcanvas.Title>Shopping Cart</Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
         {products.map(({ id, price, image, title }) => (

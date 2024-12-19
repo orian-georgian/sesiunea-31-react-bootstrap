@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Products from "../components/Products";
 import Login from "../components/Login";
 import ProtectedRoute from "../components/ProtectedRoute";
+import Admin from "./Admin";
 
 import { ModeContext } from "../contexts/ModeContext";
 
@@ -16,7 +17,9 @@ function AppContent() {
   return (
     <BrowserRouter>
       <Container
-        className={`p-0 ${mode === "light" ? "bg-body-tertiary" : "bg-black"}`}
+        className={`p-0 h-100 ${
+          mode === "light" ? "bg-body-tertiary" : "bg-black"
+        }`}
         fluid
       >
         <Routes>
@@ -37,7 +40,16 @@ function AppContent() {
               </ProtectedRoute>
             }
           />
-          <Route path="/contact" element={<h1>This is my contact page</h1>} />
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <Header />
+                <Admin />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Container>
     </BrowserRouter>

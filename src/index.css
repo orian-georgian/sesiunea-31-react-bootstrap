@@ -3,9 +3,12 @@
 }
 
 html,
-body {
+body,
+#root {
   margin: 0;
   padding: 0;
+  width: 100%;
+  height: 100%;
 }
 
 body {
@@ -24,4 +27,14 @@ code {
 
 .clickable {
   cursor: pointer;
+}
+
+.login {
+  background: url("https://wallpaperswide.com/download/windows_8_simple_background-wallpaper-2560x1600.jpg")
+    no-repeat center center;
+  background-size: cover;
+}
+
+.max-w-50 {
+  max-width: 50px;
 }

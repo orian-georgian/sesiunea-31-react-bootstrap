@@ -8,11 +8,13 @@ function ModeActions() {
 
   function handleLight(e) {
     e.preventDefault();
+    localStorage.setItem("mode", "light");
     setMode("light");
   }
 
   function handleDark(e) {
     e.preventDefault();
+    localStorage.setItem("mode", "dark");
     setMode("dark");
   }
 
