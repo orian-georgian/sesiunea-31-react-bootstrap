@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/sesiunea-31-react-bootstrap/static/css/main.8a0f4dfb.css",
-    "main.js": "/sesiunea-31-react-bootstrap/static/js/main.e0d777a9.js",
+    "main.css": "/sesiunea-31-react-bootstrap/static/css/main.c4df8ce1.css",
+    "main.js": "/sesiunea-31-react-bootstrap/static/js/main.3cf590b2.js",
     "index.html": "/sesiunea-31-react-bootstrap/index.html",
-    "main.8a0f4dfb.css.map": "/sesiunea-31-react-bootstrap/static/css/main.8a0f4dfb.css.map",
-    "main.e0d777a9.js.map": "/sesiunea-31-react-bootstrap/static/js/main.e0d777a9.js.map"
+    "main.c4df8ce1.css.map": "/sesiunea-31-react-bootstrap/static/css/main.c4df8ce1.css.map",
+    "main.3cf590b2.js.map": "/sesiunea-31-react-bootstrap/static/js/main.3cf590b2.js.map"
   },
   "entrypoints": [
-    "static/css/main.8a0f4dfb.css",
-    "static/js/main.e0d777a9.js"
+    "static/css/main.c4df8ce1.css",
+    "static/js/main.3cf590b2.js"
   ]
 }
