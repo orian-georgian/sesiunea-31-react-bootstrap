@@ -8,7 +8,7 @@ import { useMode } from "../hooks/useMode";
 import ShoppingCart from "./ShoppingCart";
 
 function CartBadge() {
-  const { cartProducts, show, toggleShow } = useCart();
+  const { cartProducts, clearCart, show, toggleShow } = useCart();
   const { mode } = useMode();
 
   function handleShowShoppingCart(e) {
@@ -38,6 +38,7 @@ function CartBadge() {
         products={cartProducts}
         show={show}
         onClose={handleHideShoppingCart}
+        onClearCart={clearCart}
       />
     </>
   );

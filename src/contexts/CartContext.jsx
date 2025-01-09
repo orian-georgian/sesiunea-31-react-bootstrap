@@ -14,6 +14,10 @@ export const CartProvider = ({ children }) => {
     setCartProducts([...cartProducts, product]);
   }
 
+  function clearCart() {
+    setCartProducts([]);
+  }
+
   function checkCartAndRemove(productId) {
     const isAvailabe = !!cartProducts.find(
       (product) => product.id === productId
@@ -36,6 +40,7 @@ export const CartProvider = ({ children }) => {
         setCartProducts,
         toggleShow,
         addToCart,
+        clearCart,
         checkCartAndRemove,
       }}
     >

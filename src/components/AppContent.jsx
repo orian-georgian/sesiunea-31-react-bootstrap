@@ -7,6 +7,7 @@ import Header from "../components/Header";
 import Products from "../components/Products";
 import Login from "../components/Login";
 import ProtectedRoute from "../components/ProtectedRoute";
+import Checkout from "./Checkout";
 import Admin from "./Admin";
 
 import { useConnection } from "../hooks/useConnection";
@@ -39,6 +40,16 @@ function AppContent() {
               <ProtectedRoute>
                 <Header />
                 <Products />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoute>
+                <Header />
+                <Checkout />
               </ProtectedRoute>
             }
           />
