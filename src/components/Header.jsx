@@ -1,12 +1,13 @@
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, Badge } from "react-bootstrap";
 import { MdLogout } from "react-icons/md";
 import { useParams, useNavigate } from "react-router-dom";
+import { PiWifiHighBold, PiWifiSlashBold } from "react-icons/pi";
 import CartBadge from "./CartBadge";
 import ModeActions from "./ModeActions";
 
-import { useContext } from "react";
-
-import { ModeContext } from "../contexts/ModeContext";
+import { useConnection } from "../hooks/useConnection";
+import { useGeolocation } from "../hooks/useGeolocation";
+import { useMode } from "../hooks/useMode";
 
 const links = [
   {
@@ -30,7 +31,9 @@ const links = [
 function Header() {
   const { category } = useParams();
   const navigate = useNavigate();
-  const { mode } = useContext(ModeContext);
+  const { mode } = useMode();
+  const online = useConnection();
+  const city = useGeolocation();
 
   function handleGoHome(e) {
     e.preventDefault();
@@ -71,6 +74,22 @@ function Header() {
             <Nav.Link href="/admin">Admin</Nav.Link>
           </Nav>
         </Navbar.Collapse>
+        {city && <Badge className="me-3">{city}</Badge>}
+        {online ? (
+          <PiWifiHighBold
+            className={`me-3 ${
+              mode === "light" ? "text-dark" : "text-light"
+            } clickable`}
+            size={24}
+          />
+        ) : (
+          <PiWifiSlashBold
+            className={`me-3 ${
+              mode === "light" ? "text-dark" : "text-light"
+            } clickable`}
+            size={24}
+          />
+        )}
         <ModeActions />
         <CartBadge />
         <MdLogout

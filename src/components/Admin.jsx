@@ -7,16 +7,16 @@ import {
   Badge,
   Button,
 } from "react-bootstrap";
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { toggleLoading, initailizeProducts, addItem } from "../redux/store";
 
-import { ModeContext } from "../contexts/ModeContext";
+import { useMode } from "../hooks/useMode";
 
 function Admin() {
   const dispatch = useDispatch();
-  const { mode } = useContext(ModeContext);
+  const { mode } = useMode();
   const { list, loading } = useSelector((state) => state.products);
   const { soldOutItems } = useSelector((state) => state.soldout);
 

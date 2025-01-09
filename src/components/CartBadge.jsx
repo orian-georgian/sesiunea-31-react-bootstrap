@@ -2,13 +2,14 @@ import { Stack, Badge } from "react-bootstrap";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { useContext } from "react";
 
-import { CartContext } from "../contexts/CartContext";
-import { ModeContext } from "../contexts/ModeContext";
+import { useCart } from "../hooks/useCart";
+import { useMode } from "../hooks/useMode";
+
 import ShoppingCart from "./ShoppingCart";
 
 function CartBadge() {
-  const { cartProducts, show, toggleShow } = useContext(CartContext);
-  const { mode } = useContext(ModeContext);
+  const { cartProducts, show, toggleShow } = useCart();
+  const { mode } = useMode();
 
   function handleShowShoppingCart(e) {
     e.preventDefault();

@@ -1,10 +1,8 @@
 import { MdDarkMode, MdLightMode } from "react-icons/md";
-import { useContext } from "react";
-
-import { ModeContext } from "../contexts/ModeContext";
+import { useMode } from "../hooks/useMode";
 
 function ModeActions() {
-  const { mode, setMode } = useContext(ModeContext);
+  const { mode, setMode } = useMode();
 
   function handleLight(e) {
     e.preventDefault();

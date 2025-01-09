@@ -1,10 +1,9 @@
 import { Offcanvas, Stack, Image, Badge } from "react-bootstrap";
 
-import { ModeContext } from "../contexts/ModeContext";
-import { useContext } from "react";
+import { useMode } from "../hooks/useMode";
 
 function ShoppingCart({ show, products, onClose }) {
-  const { mode } = useContext(ModeContext);
+  const { mode } = useMode();
 
   function handleClose() {
     if (onClose) {

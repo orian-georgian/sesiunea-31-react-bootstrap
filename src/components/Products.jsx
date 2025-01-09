@@ -7,13 +7,14 @@ import {
   Image,
   Stack,
 } from "react-bootstrap";
-import { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import Loading from "./Loading";
-import { CartContext } from "../contexts/CartContext";
-import { ModeContext } from "../contexts/ModeContext";
+
+import { useMode } from "../hooks/useMode";
+import { useCart } from "../hooks/useCart";
 
 import { initailizeProducts, toggleLoading } from "../redux/store";
 
@@ -28,8 +29,8 @@ function Products() {
 
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [productId, setProductId] = useState(null);
-  const { addToCart, checkCartAndRemove } = useContext(CartContext);
-  const { mode } = useContext(ModeContext);
+  const { addToCart, checkCartAndRemove } = useCart();
+  const { mode } = useMode();
   const timeoutId = useRef();
 
   async function loadProducts() {
